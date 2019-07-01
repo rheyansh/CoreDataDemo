@@ -144,6 +144,7 @@ extension UsersVC: NSFetchedResultsControllerDelegate {
                 uiTableView.insertRows(at: [newIndexPath], with: .fade)
             }
             break;
+            
         }
     }
     

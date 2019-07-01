@@ -99,12 +99,12 @@ class DBHandler: NSObject {
 
 struct DBConstants {
     static let userEntity = "Users"
-    static let mainContext = AppConstants.appDel.persistentContainer.viewContext
+    //static let mainContext = AppConstants.appDel.persistentContainer.viewContext
     static let persistentStoreCoordinator = AppConstants.appDel.persistentContainer.persistentStoreCoordinator
+    static let mainContext: NSManagedObjectContext = {
+        return AppConstants.appDel.persistentContainer.viewContext
+    }()
 }
 
-//lazy var mainContext: NSManagedObjectContext = {
-//return AppConstants.appDel.persistentContainer.viewContext
-//}()
-//https://medium.com/@abhimuralidharan/lazy-var-in-ios-swift-96c75cb8a13a
+
 //https://medium.com/swiftcairo/avoiding-race-conditions-in-swift-9ccef0ec0b26
