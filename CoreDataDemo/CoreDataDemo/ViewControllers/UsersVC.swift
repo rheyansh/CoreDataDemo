@@ -7,21 +7,43 @@
 //
 
 import UIKit
+import CoreData
 
 class UsersVC: UIViewController {
     
     @IBOutlet weak var uiTableView: UITableView!
     
-    private var viewModel = UsersViewModel()
+    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Users> = {
+        // Initialize Fetch Request
+        let fetchRequest: NSFetchRequest<Users> = Users.fetchRequest()
+        
+        // Add Sort Descriptors
+        let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        // Initialize Fetched Results Controller
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DBConstants.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+
+        return fetchedResultsController
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.delegate = self
         uiTableView.delegate = self
         uiTableView.dataSource = self
         
-        viewModel.fetchUsers()
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            let fetchError = error as NSError
+            print("Unable to Save Note")
+            print("\(fetchError), \(fetchError.localizedDescription)")
+        }
+        
+        //viewModel.fetchUsers()
     }
     
     @IBAction func onLogout(_ sender: Any) {
@@ -34,40 +56,19 @@ class UsersVC: UIViewController {
     
 }
 
-extension UsersVC: UsersViewModelDelegate {
-    
-    func onUsersListFetched() {
-        uiTableView.reloadData()
-    }
-    
-    func onFeedResponseFailed(_ error: String) {
-    
-        let alert = UIAlertController(title: "Alert", message: error, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-}
-
 extension UsersVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return viewModel.numberOfUsers()
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath) as! UserCell
-        
-        let user = viewModel.user(for: indexPath.row)
-        cell.fTitle.text = user.username
-        cell.fDescription.text = user.password
-        
-        if let dateStr = user.createdAt?.toString() {
-          cell.createdAt.text = dateStr
-        } else {
-            cell.createdAt.text = ""
+        guard let sections = fetchedResultsController.sections else {
+            return 0
         }
+        
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath) as! UserCell
+        configureCell(cell, at: indexPath)
 
         return cell
     }
@@ -83,12 +84,67 @@ extension UsersVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             // handle delete (by removing the data from your array and updating the tableview)
-            let user = viewModel.user(for: indexPath.row)
+            //let user = viewModel.user(for: indexPath.row)
+            let user = fetchedResultsController.object(at: indexPath)
+
             DBHandler.delete(user)
-            tableView.beginUpdates()
-            viewModel.removeUser(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.endUpdates()
+            tableView.reloadData()
         }
     }
+    
+    func configureCell(_ cell: UserCell, at indexPath: IndexPath) {
+        // Fetch Note
+        let user = fetchedResultsController.object(at: indexPath)
+        
+        // Configure Cell
+        cell.fTitle.text = user.username
+        cell.fDescription.text = user.password
+        
+        if let dateStr = user.createdAt?.toString() {
+            cell.createdAt.text = dateStr
+        } else {
+            cell.createdAt.text = ""
+        }
+    }
+}
+
+extension UsersVC: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        uiTableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        uiTableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch (type) {
+        case .insert:
+            if let indexPath = newIndexPath {
+                uiTableView.insertRows(at: [indexPath], with: .fade)
+            }
+            break;
+        case .delete:
+            if let indexPath = indexPath {
+                uiTableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            break;
+        case .update:
+            if let indexPath = indexPath, let cell = uiTableView.cellForRow(at: indexPath) as? UserCell {
+                configureCell(cell, at: indexPath)
+            }
+            break;
+        case .move:
+            if let indexPath = indexPath {
+                uiTableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            
+            if let newIndexPath = newIndexPath {
+                uiTableView.insertRows(at: [newIndexPath], with: .fade)
+            }
+            break;
+        }
+    }
+    
 }
