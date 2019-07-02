@@ -22,6 +22,18 @@ class DBHandler: NSObject {
         saveContext()
     }
     
+    class func createBook(number: Int) {
+        
+        let entity = NSEntityDescription.entity(forEntityName: DBConstants.bookEntity, in: DBConstants.mainContext)
+        let nwUser = NSManagedObject(entity: entity!, insertInto: DBConstants.mainContext)
+        nwUser.setValue("Author \(number)", forKey: "author")
+        nwUser.setValue("Desc \(number)", forKey: "desc")
+        nwUser.setValue(Date(), forKey: "publishedAt")
+        nwUser.setValue("title \(number)", forKey: "title")
+        
+        saveContext()
+    }
+    
     class func delete(_ item: NSManagedObject) {
         DBConstants.mainContext.delete(item)
         saveContext()
@@ -99,12 +111,50 @@ class DBHandler: NSObject {
 
 struct DBConstants {
     static let userEntity = "Users"
+    static let bookEntity = "Book"
     //static let mainContext = AppConstants.appDel.persistentContainer.viewContext
-    static let persistentStoreCoordinator = AppConstants.appDel.persistentContainer.persistentStoreCoordinator
-    static let mainContext: NSManagedObjectContext = {
+    
+    //https://code.tutsplus.com/tutorials/core-data-and-swift-nsfetchedresultscontroller--cms-25072
+    // MARK: Core Data Stack
+//    lazy var managedObjectModel: NSManagedObjectModel = {
+//        let modelURL = NSBundle.mainBundle().URLForResource("Done", withExtension: "momd")!
+//        return NSManagedObjectModel(contentsOfURL: modelURL)!
+//    }()
+    
+    static var mainContext: NSManagedObjectContext = {
         return AppConstants.appDel.persistentContainer.viewContext
+    }()
+    
+    static var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+        return AppConstants.appDel.persistentContainer.persistentStoreCoordinator
     }()
 }
 
-
 //https://medium.com/swiftcairo/avoiding-race-conditions-in-swift-9ccef0ec0b26
+
+/*
+ There are many operators we can use for comparison. In addition to = and ==, which are identical as far as Core Data is concerned, there's also >= and =>, <= and =>, != and <>, and > and <. I encourage you to experiment with these operators to learn how they affect the results of the fetch request.
+ 
+ 
+ ==>The following predicate illustrates how we can use the >= operator to only fetch Person records with an age attribute greater than 30.
+ 
+let predicate = NSPredicate(format: "%K >= %i", "age", 30)
+ 
+ ==> We also have operators for string comparison, CONTAINS, LIKE, MATCHES, BEGINSWITH, and ENDSWITH. Let's fetch every Person record whose name CONTAINS the letter j.
+ let predicate = NSPredicate(format: "%K CONTAINS %@", "first", "j")
+
+ If you run the application, the array of results will be empty since the string comparison is case sensitive by default. We can change this by adding a modifier like so:
+ let predicate = NSPredicate(format: "%K CONTAINS[c] %@", "first", "j")
+
+ ==> You can also create compound predicates using the keywords AND, OR, and NOT. In the following example, we fetch every person whose first name contains the letter j and is younger than 30.
+ 
+let predicate = NSPredicate(format: "%K CONTAINS[c] %@ AND %K < %i", "first", "j", "age", 30)
+ 
+ ==> Predicates also make it very easy to fetch records based on their relationship. In the following example, we fetch every person whose father's name is equal to Bart.
+ 
+ let predicate = NSPredicate(format: "%K == %@", "father.first", "Bart")
+
+ The above predicate works as expected, because %K is a variable argument substitution for a key path, not just a key.
+ 
+
+ */

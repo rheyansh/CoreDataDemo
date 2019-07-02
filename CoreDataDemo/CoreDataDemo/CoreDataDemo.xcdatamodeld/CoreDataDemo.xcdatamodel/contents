@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14838.16" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="NO" userDefinedModelVersionIdentifier="">
-    <entity name="Book" representedClassName="Book" syncable="YES" codeGenerationType="class">
+    <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="publishedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Users" inverseName="book" inverseEntity="Users"/>
     </entity>
-    <entity name="Users" representedClassName="Users" syncable="YES" codeGenerationType="class">
+    <entity name="Users" representedClassName=".Users" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
+        <relationship name="book" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Book" inverseName="users" inverseEntity="Book"/>
     </entity>
     <elements>
-        <element name="Users" positionX="-63" positionY="-18" width="128" height="88"/>
-        <element name="Book" positionX="84.64453125" positionY="-37.94140625" width="128" height="103"/>
+        <element name="Book" positionX="228.7578125" positionY="-33.4765625" width="128" height="118"/>
+        <element name="Users" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
 </model>

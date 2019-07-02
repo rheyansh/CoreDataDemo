@@ -74,7 +74,15 @@ extension UsersVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = fetchedResultsController.object(at: indexPath)
+
+        let userBooks = self.storyboard?.instantiateViewController(identifier: "UserBooks") as! UserBooks
         
+        if let books = user.book {
+            userBooks.books = Array(books)
+        }
+        
+        self.navigationController?.pushViewController(userBooks, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

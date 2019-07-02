@@ -24,6 +24,12 @@
 		11F5443C22C637F800B6ACA0 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F5443B22C637F800B6ACA0 /* UsersViewModel.swift */; };
 		11F5443E22C6397E00B6ACA0 /* TableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F5443D22C6397E00B6ACA0 /* TableViewExtension.swift */; };
 		11F5444122C639C500B6ACA0 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F5444022C639C500B6ACA0 /* UserCell.swift */; };
+		11F6F5F022CB26E200F774A6 /* Book+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F6F5EC22CB26E200F774A6 /* Book+CoreDataClass.swift */; };
+		11F6F5F122CB26E200F774A6 /* Book+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F6F5ED22CB26E200F774A6 /* Book+CoreDataProperties.swift */; };
+		11F6F5F222CB26E200F774A6 /* Users+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F6F5EE22CB26E200F774A6 /* Users+CoreDataClass.swift */; };
+		11F6F5F322CB26E200F774A6 /* Users+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F6F5EF22CB26E200F774A6 /* Users+CoreDataProperties.swift */; };
+		11F6F5F622CB2F6500F774A6 /* BooksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F6F5F522CB2F6500F774A6 /* BooksVC.swift */; };
+		11F6F5F822CB335C00F774A6 /* UserBooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F6F5F722CB335C00F774A6 /* UserBooks.swift */; };
 		11F943D722C9ECFE00778355 /* GeneralExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F943D622C9ECFE00778355 /* GeneralExtension.swift */; };
 		11F943D922C9F40C00778355 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F943D822C9F40C00778355 /* UIViewExtension.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +54,12 @@
 		11F5443B22C637F800B6ACA0 /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		11F5443D22C6397E00B6ACA0 /* TableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExtension.swift; sourceTree = "<group>"; };
 		11F5444022C639C500B6ACA0 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		11F6F5EC22CB26E200F774A6 /* Book+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Book+CoreDataClass.swift"; sourceTree = "<group>"; };
+		11F6F5ED22CB26E200F774A6 /* Book+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Book+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		11F6F5EE22CB26E200F774A6 /* Users+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users+CoreDataClass.swift"; sourceTree = "<group>"; };
+		11F6F5EF22CB26E200F774A6 /* Users+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		11F6F5F522CB2F6500F774A6 /* BooksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksVC.swift; sourceTree = "<group>"; };
+		11F6F5F722CB335C00F774A6 /* UserBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBooks.swift; sourceTree = "<group>"; };
 		11F943D622C9ECFE00778355 /* GeneralExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralExtension.swift; sourceTree = "<group>"; };
 		11F943D822C9F40C00778355 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +94,7 @@
 		11F5441122C628AA00B6ACA0 /* CoreDataDemo */ = {
 			isa = PBXGroup;
 			children = (
+				11F6F5F422CB26EC00F774A6 /* CoreDataClasses */,
 				11F5443F22C639AF00B6ACA0 /* Views */,
 				11F5443A22C637DE00B6ACA0 /* ViewModel */,
 				11F5443722C6378400B6ACA0 /* ViewControllers */,
@@ -126,6 +139,8 @@
 			children = (
 				11F5443822C637A200B6ACA0 /* UsersVC.swift */,
 				11F5441622C628AA00B6ACA0 /* DashboardVC.swift */,
+				11F6F5F522CB2F6500F774A6 /* BooksVC.swift */,
+				11F6F5F722CB335C00F774A6 /* UserBooks.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -144,6 +159,17 @@
 				11F5444022C639C500B6ACA0 /* UserCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		11F6F5F422CB26EC00F774A6 /* CoreDataClasses */ = {
+			isa = PBXGroup;
+			children = (
+				11F6F5EC22CB26E200F774A6 /* Book+CoreDataClass.swift */,
+				11F6F5ED22CB26E200F774A6 /* Book+CoreDataProperties.swift */,
+				11F6F5EE22CB26E200F774A6 /* Users+CoreDataClass.swift */,
+				11F6F5EF22CB26E200F774A6 /* Users+CoreDataProperties.swift */,
+			);
+			path = CoreDataClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,20 +244,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				11F943D722C9ECFE00778355 /* GeneralExtension.swift in Sources */,
+				11F6F5F222CB26E200F774A6 /* Users+CoreDataClass.swift in Sources */,
 				11F5441722C628AA00B6ACA0 /* DashboardVC.swift in Sources */,
+				11F6F5F122CB26E200F774A6 /* Book+CoreDataProperties.swift in Sources */,
 				11F5443C22C637F800B6ACA0 /* UsersViewModel.swift in Sources */,
 				11F5443422C635D400B6ACA0 /* AlertController.swift in Sources */,
 				11F5442B22C62AAF00B6ACA0 /* DBHandler.swift in Sources */,
 				11F5443022C634E100B6ACA0 /* ViewControllerExtension.swift in Sources */,
 				11F943D922C9F40C00778355 /* UIViewExtension.swift in Sources */,
+				11F6F5F022CB26E200F774A6 /* Book+CoreDataClass.swift in Sources */,
 				11F5443222C635A100B6ACA0 /* AppConstants.swift in Sources */,
+				11F6F5F822CB335C00F774A6 /* UserBooks.swift in Sources */,
 				11F5444122C639C500B6ACA0 /* UserCell.swift in Sources */,
 				11F5443622C6361000B6ACA0 /* CustomError.swift in Sources */,
 				11F5442E22C6336300B6ACA0 /* RStringExtension.swift in Sources */,
+				11F6F5F322CB26E200F774A6 /* Users+CoreDataProperties.swift in Sources */,
 				11F5441D22C628AA00B6ACA0 /* CoreDataDemo.xcdatamodeld in Sources */,
 				11F5443922C637A200B6ACA0 /* UsersVC.swift in Sources */,
 				11F5441322C628AA00B6ACA0 /* AppDelegate.swift in Sources */,
 				11F5441522C628AA00B6ACA0 /* SceneDelegate.swift in Sources */,
+				11F6F5F622CB2F6500F774A6 /* BooksVC.swift in Sources */,
 				11F5443E22C6397E00B6ACA0 /* TableViewExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
